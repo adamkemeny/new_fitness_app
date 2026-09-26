@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "./API/axios";
 import { useNavigate } from "react-router-dom";
+import "./All-pages.css";
 
 export default function Register() {
   const [formData, setformData] = useState({
@@ -22,62 +23,63 @@ export default function Register() {
     R.preventDefault();
     setLoading(true);
     try {
-       await axios.post(
-        "/api/auth/register",
-        formData,
-      );
-      alert("Sikeres regisztráció! \n Jelentkezz be!")
+      await axios.post("/api/auth/register", formData);
+      alert("Sikeres regisztráció! \n Jelentkezz be!");
       navigate("/");
     } catch (error) {
       console.error(error);
       alert("Sikertelen regisztráció!");
-    }
-    finally{
-        setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
-  return(
-    <div style={{ padding: "20px" }}>
-      <h2>Register</h2>
+  return (
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2>Regisztráció:</h2>
 
-      <form onSubmit={handleRegister}>
-        <input
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <form onSubmit={handleRegister}>
+          <input
+            name="name"
+            placeholder="Név"
+            value={formData.name}
+            onChange={handleChange}
+          />
 
-        <br /><br />
+          <br />
+          <br />
 
-        <input
-          name="email"
-          placeholder="Email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+          <input
+            name="email"
+            placeholder="Email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
 
-        <br /><br />
+          <br />
+          <br />
 
-        <input
-          name="password"
-          placeholder="Password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
+          <input
+            name="password"
+            placeholder="Jelszó"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
 
-        <br /><br />
+          <br />
+          <br />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Register"}
-        </button>
-      </form>
-      <div>
-        <h4>
-          Already have an account? <a href="/login">Log in</a>
-        </h4>
+          <button type="submit" disabled={loading}>
+            {loading ? "Betöltés..." : "Regisztráció"}
+          </button>
+        </form>
+        <div>
+          <h4>
+            Már van fiókod? <a href="/login">Jelentkezz be!</a>
+          </h4>
+        </div>
       </div>
     </div>
   );

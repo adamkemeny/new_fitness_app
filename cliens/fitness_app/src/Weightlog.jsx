@@ -10,6 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import "./All-pages-2.css";
 
 export default function Weightlog() {
   const [userWeightHistory, setUserWeightHistory] = useState([]);
@@ -51,9 +52,9 @@ export default function Weightlog() {
     });
   }, []);
   return (
-    <div style={{ width: 1000, height: 400 }}>
+    <div className="progress-page">
       <h3>Súly alakulása</h3>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={350}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis

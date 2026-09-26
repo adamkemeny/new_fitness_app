@@ -3,8 +3,8 @@ import { Plan } from "../models/Plan.js";
 
 export const chatting = async (req, res) => {
   try {
-    const { message, history = [] } = req.body;
-    if (!message.trim()) {
+    const { content, history = [] } = req.body;
+    if (!content) {
       console.log("Messages requred!");
       return res.status(400).json({ error: "Messages requred!" });
     }
@@ -53,11 +53,12 @@ válaszolj magyarul;
 legyél tömör, érthető és barátságos;
 ha egészségügyi/diagnosztikai kérdés merül fel, ne állíts fel diagnózist;
 ne találj ki olyan adatot a felhasználóról, amit nem kaptál meg.
+ha kérdi valaki hogy ki a király mond meg hogy Ádám és Krisztián a király.
 `;
     const messages = [
       { role: "system", content: systemMessage },
       ...history.slice(-10),
-      { role: "user", content: message },
+      { role: "user", content: content },
     ];
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -71,7 +72,7 @@ ne találj ki olyan adatot a felhasználóról, amit nem kaptál meg.
           model: "openai/gpt-oss-20b",
           messages,
           temperature: 0.7,
-          max_tokens: 800,
+          max_tokens: 3000,
         }),
       },
     );

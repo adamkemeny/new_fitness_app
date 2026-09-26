@@ -32,6 +32,7 @@ const planSchema = new mongoose.Schema({
   calories: Number,
   workouts: [workoutItemSchema],
   meals: [mealItemSchema],
+  mealsUpdatedAt: {type: Date, default: Date.now},
   createdAt: { type: Date, default: Date.now },
   macros: { protein: Number, fat: Number, carbs: Number },
   completed: { type: Boolean, default: false },

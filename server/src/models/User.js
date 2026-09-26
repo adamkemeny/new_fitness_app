@@ -55,7 +55,8 @@ const userSchema = new mongoose.Schema({
     weightHistory : [weightHistorySchema],
     workoutHistory : [workoutHistorySchema],
     macroHistory : [macroHistorySchema],
-    dailyLog:[dailyLogSchema]
+    dailyLog:[dailyLogSchema],
+    availability: {type: Object, default: {}}
 });
 
 export const  User = mongoose.model("User", userSchema);

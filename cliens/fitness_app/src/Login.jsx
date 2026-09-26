@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "./API/axios";
 import { useNavigate } from "react-router-dom";
+import "./All-pages.css";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -14,12 +15,9 @@ export default function Login() {
   const handleLogin = async (R) => {
     R.preventDefault();
     try {
-      const res = await axios.post(
-        "/api/auth/login",
-        loginData,
-      );
+      const res = await axios.post("/api/auth/login", loginData);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user",JSON.stringify(res.data.user));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/home");
     } catch (error) {
       console.error(error);
@@ -28,38 +26,38 @@ export default function Login() {
     }
   };
   return (
-    <div style={{padding: "20px"}}>
-      <h2>Login: </h2>
-      <form onSubmit={handleLogin}>
-        <input
-          name="email"
-          placeholder="Email"
-          type="email"
-          onChange={handleChange}
-        />
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2>Bejelentkezés: </h2>
+        <form onSubmit={handleLogin}>
+          <input
+            name="email"
+            placeholder="Email"
+            type="email"
+            onChange={handleChange}
+          />
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <input
-          name="password"
-          placeholder="Password"
-          type="password"
-          onChange={handleChange}
-        />
+          <input
+            name="password"
+            placeholder="Jelszó"
+            type="password"
+            onChange={handleChange}
+          />
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <button type="submit">Login</button>
-      </form>
-      <div>
-        <h4>
-          You don&apos;t have an account yet?{" "}
-          <a href="/register">Register</a>{" "}
-        </h4>
+          <button type="submit">Bejelentkezés</button>
+        </form>
+        <div>
+          <h4>
+            Nincs még fiókod? <a href="/register">Regisztrálj!</a>{" "}
+          </h4>
+        </div>
       </div>
     </div>
   );
-
 }

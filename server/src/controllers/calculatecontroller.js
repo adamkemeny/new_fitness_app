@@ -3,6 +3,8 @@ import { User } from "../models/User.js";
 import { calculate } from "../services/calculateservice.js";
 import { GeneratePlan } from "../services/plangenerator.js";
 
+const oneWeek = 7*24*60*60*1000;
+
 export const calculating = async (req, res) => {
   const userData = req.body;
   const user = await User.findById(req.userID);
@@ -28,43 +30,37 @@ export const calculating = async (req, res) => {
     "weightHistory",
   ];
 
+  const currentPlan = await Plan.findOne({ userID: req.userID }).sort({createdAt: -1});
+
+  if(currentPlan){
+    const nextPlanDate = new Date(currentPlan.createdAt).getTime() + oneWeek;
+    if(Date.now() < nextPlanDate){
+      return res.status(403).json({error: "Még nem generálhatsz új tervet.", nextPlanAt: new Date(nextPlanDate)});
+    }
+  }
+
+  const draftUser = user.toObject();
+
   allowedFields.forEach((field) => {
     if (userData[field] !== undefined) {
-      user[field] = userData[field];
+      draftUser[field] = userData[field];
     }
   });
-  user.weightHistory.push({date: new Date(), weight: user.weight});
-  await user.save();
 
-  const { calories, macros } = calculate(user);
+  if(!draftUser.availability){
+    return res.status(400).json({error: "Availability is requred."});
+  }
 
-  await Plan.deleteMany({
-    userID: user._id,
-  });
+  const { calories, macros } = calculate(draftUser);
 
-  const planData = await GeneratePlan(user, macros, calories);
-  let plan = await Plan.create({
-    userID: user._id,
+  const planData = await GeneratePlan(draftUser, macros, calories);
+  
+  const  draftPlan = {
     calories,
     macros,
     meals: planData.meals,
     workouts: planData.workouts,
-  });
-
-  user.macroHistory.push({
-    date: new Date(),
-    calories: calories,
-    protein: macros.protein,
-    carbs: macros.carbs,
-    fat: macros.fat,
-  });
-
-  user.workoutHistory.push({
-    planId: plan._id,
-    completed: false,
-    duration: 0,
-    date: new Date(),
-  });
-  await user.save();
-  res.json({ macros, plan, calories, user });
+  };
+  
+  res.json({ macros, plan: draftPlan, calories, user });
 };

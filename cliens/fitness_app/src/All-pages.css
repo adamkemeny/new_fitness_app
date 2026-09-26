@@ -1,0 +1,1448 @@
+:root {
+  --bg: #0f172a;
+  --bg-soft: #111827;
+
+  --surface: #1e293b;
+  --surface-soft: #263244;
+
+  --primary: #22c55e;
+  --primary-hover: #4ade80;
+  --primary-dark: #16a34a;
+  --primary-light: rgba(34, 197, 94, 0.15);
+
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+
+  --border: #334155;
+
+  --danger: #ef4444;
+
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 15px 40px rgba(0, 0, 0, 0.4);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+
+/* ========================================
+   RESET
+======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  min-width: 320px;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(34, 197, 94, 0.12),
+      transparent 35%
+    ),
+    var(--bg);
+
+  color: var(--text);
+  line-height: 1.5;
+}
+
+#root {
+  width: 100%;
+}
+
+
+/* ========================================
+   TYPOGRAPHY
+======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+}
+
+p {
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--primary-hover);
+
+  text-decoration: none;
+
+  font-weight: 600;
+
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #86efac;
+}
+
+
+/* ========================================
+   APP CONTAINER
+======================================== */
+
+.app-container {
+  width: min(1200px, calc(100% - 32px));
+
+  margin: 0 auto;
+
+  padding: 90px 0 60px;
+}
+
+
+/* ========================================
+   GENERAL CARD
+======================================== */
+
+.card {
+  background: rgba(30, 41, 59, 0.92);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  padding: 24px;
+
+  box-shadow: var(--shadow-sm);
+
+  backdrop-filter: blur(12px);
+}
+
+
+/* ========================================
+   FORMS
+======================================== */
+
+form {
+  background: var(--surface);
+
+  border-radius: var(--radius-lg);
+
+  padding: 28px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid var(--border);
+
+  box-shadow: var(--shadow-sm);
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+input,
+select {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--surface-soft);
+
+  color: var(--text);
+
+  font-family: inherit;
+
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+select option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+input:hover,
+select:hover {
+  border-color: #475569;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--primary);
+
+  background: #1e293b;
+
+  box-shadow:
+    0 0 0 4px rgba(34, 197, 94, 0.12);
+}
+
+
+/* ========================================
+   CHECKBOX
+======================================== */
+
+form div:has(input[type="checkbox"]) {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+form div:has(input[type="checkbox"]) p {
+  flex-basis: 100%;
+
+  margin: 0 0 4px;
+
+  color: var(--text);
+
+  font-weight: 700;
+}
+
+form label:has(input[type="checkbox"]) {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  border-radius: 999px;
+
+  border: 1px solid var(--border);
+
+  background: var(--surface-soft);
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+form label:has(input[type="checkbox"]):hover {
+  background: var(--primary-light);
+
+  border-color: var(--primary);
+}
+
+input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+
+  accent-color: var(--primary);
+}
+
+
+/* ========================================
+   DEFAULT BUTTONS
+======================================== */
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  min-height: 44px;
+
+  padding: 10px 18px;
+
+  border: 1px solid var(--primary);
+
+  border-radius: var(--radius-sm);
+
+  background-color: var(--primary);
+  background-image: none;
+
+  color: #052e16;
+
+  font-family: inherit;
+
+  font-size: 0.9rem;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+
+  border-color: var(--primary-hover);
+
+  color: #020617;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 22px rgba(34, 197, 94, 0.25);
+}
+
+button:active {
+  background-color: var(--primary-dark);
+
+  border-color: var(--primary-dark);
+
+  color: white;
+
+  transform: translateY(0);
+
+  box-shadow: none;
+}
+
+button:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(34, 197, 94, 0.22);
+}
+
+button:disabled {
+  background-color: #334155;
+
+  border-color: #334155;
+
+  color: #94a3b8;
+
+  cursor: not-allowed;
+
+  opacity: 0.7;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+form > button {
+  grid-column: 1 / -1;
+}
+
+
+/* ========================================
+   USER MENU
+======================================== */
+
+.user-menu {
+  position: fixed;
+
+  top: 20px;
+  right: 25px;
+
+  z-index: 100;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 8px 8px 8px 16px;
+
+  background: rgba(15, 23, 42, 0.95);
+
+  color: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 999px;
+
+  box-shadow: var(--shadow-md);
+
+  backdrop-filter: blur(12px);
+}
+
+.user-menu button {
+  min-height: 36px;
+
+  padding: 7px 13px;
+
+  background-color: var(--primary);
+
+  border-color: var(--primary);
+
+  color: #052e16;
+}
+
+.user-menu button:hover {
+  background-color: var(--primary-hover);
+
+  border-color: var(--primary-hover);
+
+  color: #020617;
+}
+
+
+/* ========================================
+   CALORIES
+======================================== */
+
+.calorie-card {
+  padding: 24px;
+
+  margin: 25px 0;
+
+  border-radius: var(--radius-lg);
+
+  background:
+    linear-gradient(
+      135deg,
+      #14532d,
+      #16a34a
+    );
+
+  color: white;
+
+  box-shadow:
+    0 14px 35px rgba(22, 163, 74, 0.24);
+}
+
+.calorie-card h2 {
+  margin: 0;
+
+  color: white;
+}
+
+.calorie-card span {
+  color: #dcfce7;
+}
+
+
+/* ========================================
+   MACROS
+======================================== */
+
+.macros {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 15px;
+
+  margin: 20px 0 35px;
+}
+
+.macro-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 22px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.macro-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  right: -35px;
+  top: -35px;
+
+  border-radius: 50%;
+
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.macro-card span {
+  display: block;
+
+  color: var(--text-muted);
+}
+
+.macro-card strong {
+  display: block;
+
+  margin-top: 6px;
+
+  font-size: 1.55rem;
+
+  color: var(--text);
+}
+
+
+/* ========================================
+   WEEKLY PLAN
+======================================== */
+
+.weekly-plan {
+  margin-top: 40px;
+}
+
+.plan-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 20px;
+}
+
+.day-card {
+  background: var(--surface) !important;
+
+  border: 1px solid var(--border) !important;
+
+  border-radius: var(--radius-md);
+
+  padding: 20px !important;
+
+  margin-bottom: 0 !important;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow: var(--shadow-md);
+}
+
+.day-card h3 {
+  color: var(--primary-hover);
+
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.day-card h4 {
+  color: var(--text);
+}
+
+.day-card div {
+  color: var(--text-muted);
+}
+
+.day-card b {
+  color: #f8fafc;
+}
+
+
+/* ========================================
+   AI CHAT
+======================================== */
+
+.chat-section {
+  margin-top: 50px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-lg);
+
+  padding: 25px;
+
+  box-shadow: var(--shadow-md);
+}
+
+.chat-section h3 {
+  margin-top: 0;
+}
+
+.chat-window {
+  height: 350px;
+
+  overflow-y: auto;
+
+  padding: 18px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  background: #0f172a;
+
+  margin-bottom: 15px;
+}
+
+.chat-message {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 15px;
+}
+
+.chat-message.user {
+  align-items: flex-end;
+}
+
+.chat-message.assistant {
+  align-items: flex-start;
+}
+
+.chat-message b {
+  margin-bottom: 4px;
+
+  font-size: 0.75rem;
+
+  color: var(--text-muted);
+}
+
+.chat-message > .message-content {
+  max-width: 75%;
+
+  padding: 11px 15px;
+
+  border-radius:
+    4px
+    16px
+    16px
+    16px;
+
+  background: var(--surface-soft);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+}
+
+.chat-message.user > .message-content {
+  background: var(--primary);
+
+  color: #052e16;
+
+  border-color: var(--primary);
+
+  border-radius:
+    16px
+    4px
+    16px
+    16px;
+}
+
+.chat-input-row {
+  display: flex;
+
+  gap: 10px;
+}
+
+.chat-input-row input {
+  flex: 1;
+}
+
+.chat-input-row button {
+  min-width: 100px;
+}
+
+
+/* ========================================
+   MARKDOWN
+======================================== */
+
+.message-content {
+  line-height: 1.6;
+
+  overflow-x: auto;
+}
+
+.message-content p {
+  margin: 0 0 10px;
+
+  color: inherit;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
+.message-content strong {
+  font-weight: 800;
+
+  color: inherit;
+}
+
+.message-content ul,
+.message-content ol {
+  margin: 8px 0;
+
+  padding-left: 22px;
+}
+
+.message-content li {
+  margin-bottom: 5px;
+}
+
+.message-content h1,
+.message-content h2,
+.message-content h3,
+.message-content h4 {
+  color: inherit;
+
+  margin-top: 16px;
+
+  margin-bottom: 8px;
+}
+
+.message-content code {
+  background: #111827;
+
+  color: #86efac;
+
+  padding: 2px 5px;
+
+  border-radius: 5px;
+
+  font-size: 0.9em;
+}
+
+
+/* ========================================
+   MARKDOWN TABLE
+======================================== */
+
+.message-content table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin: 15px 0;
+
+  font-size: 0.9rem;
+
+  background: #1e293b;
+}
+
+.message-content th,
+.message-content td {
+  padding: 10px 12px;
+
+  border: 1px solid #334155;
+
+  text-align: left;
+
+  vertical-align: top;
+}
+
+.message-content th {
+  background: #263244;
+
+  color: var(--primary-hover);
+
+  font-weight: 700;
+}
+
+.message-content td {
+  color: #e2e8f0;
+}
+
+
+/* ========================================
+   AUTH PAGES
+======================================== */
+
+.auth-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 25px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(34, 197, 94, 0.12),
+      transparent 35%
+    ),
+    #0f172a;
+}
+
+.auth-card {
+  width: min(420px, 100%);
+
+  padding: 35px;
+
+  background: var(--surface);
+
+  border-radius: var(--radius-lg);
+
+  border: 1px solid var(--border);
+
+  box-shadow: var(--shadow-md);
+}
+
+.auth-card form {
+  padding: 0;
+
+  border: none;
+
+  box-shadow: none;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.auth-card h4 {
+  color: var(--text-muted);
+
+  text-align: center;
+
+  font-weight: 400;
+}
+
+
+/* ========================================
+   PROGRESS PAGE
+======================================== */
+
+.progress-page {
+  width: min(1000px, calc(100% - 32px));
+
+  min-height: 500px;
+
+  margin: 60px auto;
+
+  padding: 30px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-md);
+}
+
+.progress-page h3 {
+  margin-top: 0;
+
+  margin-bottom: 25px;
+
+  font-size: 1.5rem;
+
+  color: var(--text);
+}
+
+.chart-container {
+  width: 100%;
+
+  height: 350px;
+
+  margin-bottom: 30px;
+
+  padding: 15px;
+
+  background: #0f172a;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+}
+
+.progress-page form {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 20px;
+
+  margin-bottom: 15px;
+
+  padding: 20px;
+
+  background: var(--surface-soft);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: none;
+}
+
+.progress-page form input {
+  flex: 1;
+}
+
+
+/* ========================================
+   AVAILABILITY OVERLAY
+======================================== */
+
+.availability-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 20px;
+
+  background: rgba(2, 6, 23, 0.82);
+
+  backdrop-filter: blur(7px);
+}
+
+
+/* ========================================
+   AVAILABILITY MODAL
+======================================== */
+
+.availability-modal {
+  width: min(950px, 100%);
+
+  max-height: 90vh;
+
+  overflow: auto;
+
+  padding: 26px;
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-lg);
+
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.65);
+}
+
+
+/* ========================================
+   AVAILABILITY HEADER
+======================================== */
+
+.availability-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+.availability-header h3 {
+  margin: 0;
+
+  font-size: 1.35rem;
+
+  color: var(--text);
+}
+
+
+/* ========================================
+   CLOSE BUTTON
+======================================== */
+
+.availability-close {
+  width: 40px !important;
+  min-width: 40px !important;
+
+  height: 40px !important;
+  min-height: 40px !important;
+
+  padding: 0 !important;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border-radius: 50%;
+
+  background-color: #334155 !important;
+
+  border: 1px solid #475569 !important;
+
+  color: #f8fafc !important;
+
+  font-size: 1rem;
+
+  box-shadow: none !important;
+
+  transform: none !important;
+}
+
+.availability-close:hover {
+  background-color: #475569 !important;
+
+  border-color: #64748b !important;
+
+  color: white !important;
+
+  transform: none !important;
+
+  box-shadow: none !important;
+}
+
+
+/* ========================================
+   AVAILABILITY GRID
+======================================== */
+
+.availability-grid {
+  display: grid;
+
+  grid-template-columns:
+    60px repeat(7, minmax(75px, 1fr));
+
+  gap: 6px;
+
+  min-width: 700px;
+
+  padding: 8px 0;
+}
+
+
+/* ========================================
+   DAY HEADERS
+======================================== */
+
+.availability-day {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  min-height: 36px;
+
+  padding: 6px;
+
+  background: #263244;
+
+  color: #e2e8f0;
+
+  border: 1px solid var(--border);
+
+  border-radius: 8px;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+
+/* ========================================
+   HOURS
+======================================== */
+
+.availability-hour {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: var(--text-muted);
+
+  font-size: 0.78rem;
+
+  font-weight: 600;
+}
+
+
+/* ========================================
+   AVAILABILITY SLOT
+======================================== */
+
+/*
+   FONTOS:
+   Ezek direkt felülírják a globális
+   button stílust.
+*/
+
+button.availability-slot {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  width: 100% !important;
+
+  height: 32px !important;
+
+  min-height: 32px !important;
+
+  padding: 0 !important;
+
+  margin: 0 !important;
+
+  background-color: #263244 !important;
+
+  background-image: none !important;
+
+  border: 1px solid #334155 !important;
+
+  border-radius: 7px !important;
+
+  color: transparent !important;
+
+  box-shadow: none !important;
+
+  transform: none !important;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease !important;
+}
+
+
+/* NINCS KIVÁLASZTVA + HOVER */
+
+button.availability-slot:not(.selected):hover {
+  background-color: #334155 !important;
+
+  border-color: #4ade80 !important;
+
+  box-shadow:
+    0 0 0 2px rgba(74, 222, 128, 0.12)
+    !important;
+
+  transform: none !important;
+}
+
+
+/* KIVÁLASZTVA */
+
+button.availability-slot.selected {
+  background-color: #22c55e !important;
+
+  border-color: #22c55e !important;
+
+  box-shadow:
+    0 0 0 2px rgba(34, 197, 94, 0.15)
+    !important;
+
+  transform: none !important;
+}
+
+
+/* KIVÁLASZTVA + HOVER */
+
+button.availability-slot.selected:hover {
+  background-color: #4ade80 !important;
+
+  border-color: #4ade80 !important;
+
+  box-shadow:
+    0 0 0 2px rgba(74, 222, 128, 0.18)
+    !important;
+
+  transform: none !important;
+}
+
+
+/* SLOT ACTIVE */
+
+button.availability-slot:active {
+  transform: none !important;
+}
+
+
+/* ========================================
+   AVAILABILITY SAVE
+======================================== */
+
+.availability-save {
+  width: 100%;
+
+  margin-top: 20px;
+
+  background-color: var(--primary) !important;
+
+  border-color: var(--primary) !important;
+
+  color: #052e16 !important;
+}
+
+.availability-save:hover {
+  background-color: var(--primary-hover) !important;
+
+  border-color: var(--primary-hover) !important;
+
+  color: #020617 !important;
+}
+
+
+/* ========================================
+   FINAL BUTTON OVERRIDE
+======================================== */
+
+/*
+   A lényeg itt van:
+   availability-slot és availability-close
+   KI VAN ZÁRVA minden általános
+   zöld gomb szabályból.
+*/
+
+.app-container
+button:not(.availability-slot):not(.availability-close):not(:disabled),
+.auth-page
+button:not(.availability-slot):not(.availability-close):not(:disabled),
+.progress-page
+button:not(.availability-slot):not(.availability-close):not(:disabled) {
+  background-color: var(--primary) !important;
+
+  background-image: none !important;
+
+  color: #052e16 !important;
+
+  border: 1px solid var(--primary) !important;
+}
+
+
+.app-container
+button:not(.availability-slot):not(.availability-close):not(:disabled):hover,
+.auth-page
+button:not(.availability-slot):not(.availability-close):not(:disabled):hover,
+.progress-page
+button:not(.availability-slot):not(.availability-close):not(:disabled):hover {
+  background-color: var(--primary-hover) !important;
+
+  color: #020617 !important;
+
+  border-color: var(--primary-hover) !important;
+
+  box-shadow:
+    0 8px 22px rgba(34, 197, 94, 0.25);
+
+  transform: translateY(-1px);
+}
+
+
+.app-container
+button:not(.availability-slot):not(.availability-close):not(:disabled):active,
+.auth-page
+button:not(.availability-slot):not(.availability-close):not(:disabled):active,
+.progress-page
+button:not(.availability-slot):not(.availability-close):not(:disabled):active {
+  background-color: var(--primary-dark) !important;
+
+  border-color: var(--primary-dark) !important;
+
+  color: white !important;
+
+  transform: translateY(0);
+}
+
+
+/* ========================================
+   SCROLLBAR
+======================================== */
+
+::-webkit-scrollbar {
+  width: 9px;
+
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+
+  .app-container {
+    width: calc(100% - 20px);
+
+    padding-top: 85px;
+  }
+
+
+  form {
+    grid-template-columns: 1fr;
+
+    padding: 20px;
+  }
+
+
+  form > * {
+    grid-column: 1 !important;
+  }
+
+
+  .macros {
+    grid-template-columns: 1fr;
+  }
+
+
+  .plan-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .chat-message > .message-content {
+    max-width: 90%;
+  }
+
+
+  .chat-input-row {
+    flex-direction: column;
+  }
+
+
+  .chat-input-row button {
+    width: 100%;
+  }
+
+
+  .user-menu {
+    top: 12px;
+
+    right: 12px;
+
+    left: 12px;
+
+    justify-content: space-between;
+  }
+
+
+  .progress-page {
+    width: calc(100% - 20px);
+
+    margin: 30px auto;
+
+    padding: 20px;
+  }
+
+
+  .progress-page form {
+    flex-direction: column;
+  }
+
+
+  .progress-page form button {
+    width: 100%;
+  }
+
+
+  .chart-container {
+    height: 300px;
+
+    padding: 5px;
+  }
+
+
+  .availability-overlay {
+    padding: 10px;
+  }
+
+
+  .availability-modal {
+    width: 100%;
+
+    max-height: 95vh;
+
+    padding: 18px;
+
+    overflow-x: auto;
+  }
+
+
+  .availability-grid {
+    min-width: 680px;
+  }
+
+
+  .availability-header {
+    position: sticky;
+
+    left: 0;
+  }
+
+
+  .availability-save {
+    position: sticky;
+
+    left: 0;
+  }
+}
