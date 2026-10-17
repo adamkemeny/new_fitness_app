@@ -1,14 +1,21 @@
 import { randomItem } from "./foodservice.js";
 
-export const generateMeals = (calories, intolerances, foodData) => {
-  const { breakfasts,morningsnacks,lunches,afternoonsnacks,dinners, snacks} = foodData;
+export const generateMeals = (calories, intolerances, foodData, diet) => {
+  const {
+    breakfasts,
+    morningsnacks,
+    lunches,
+    afternoonsnacks,
+    dinners,
+    snacks,
+  } = foodData;
 
-  const breakfast = randomItem(breakfasts, intolerances);
-  const morningsnack = randomItem(morningsnacks, intolerances);
-  const lunch = randomItem(lunches, intolerances);
-  const afternoonsnack = randomItem(afternoonsnacks, intolerances);
-  const dinner = randomItem(dinners, intolerances);
-  const snack = randomItem(snacks, intolerances);
+  const breakfast = randomItem(breakfasts, intolerances, diet);
+  const morningsnack = randomItem(morningsnacks, intolerances, diet);
+  const lunch = randomItem(lunches, intolerances, diet);
+  const afternoonsnack = randomItem(afternoonsnacks, intolerances, diet);
+  const dinner = randomItem(dinners, intolerances, diet);
+  const snack = randomItem(snacks, intolerances, diet);
 
   const breakfastCal = Math.round(calories * 0.1);
   const morningsnackCal = Math.round(calories * 0.066);
@@ -21,11 +28,18 @@ export const generateMeals = (calories, intolerances, foodData) => {
     return Math.round((targetCalories / calPer100g) * 100);
   };
 
-  if (!breakfast || !morningsnack || !lunch || !afternoonsnack || !dinner || !snack) {
+  if (
+    !breakfast ||
+    !morningsnack ||
+    !lunch ||
+    !afternoonsnack ||
+    !dinner ||
+    !snack
+  ) {
     throw new Error("Meal generation failed!");
   }
 
- return [
+  return [
     {
       type: "Reggeli",
       _id: breakfast._id,
@@ -67,6 +81,6 @@ export const generateMeals = (calories, intolerances, foodData) => {
       name: snack.name,
       calories: snackCal,
       gramms: calculateGramm(snackCal, snack.calories),
-    }
+    },
   ];
 };

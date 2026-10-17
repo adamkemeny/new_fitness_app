@@ -29,6 +29,7 @@ export const calculating = async (req, res) => {
       "difficulty",
       "availability",
       "weightHistory",
+      "diet",
     ];
 
     const currentPlan = await Plan.findOne({ userID: req.userID }).sort({
@@ -38,12 +39,10 @@ export const calculating = async (req, res) => {
     if (currentPlan) {
       const nextPlanDate = new Date(currentPlan.createdAt).getTime() + oneWeek;
       if (Date.now() < nextPlanDate) {
-        return res
-          .status(403)
-          .json({
-            error: "Még nem generálhatsz új tervet.",
-            nextPlanAt: new Date(nextPlanDate),
-          });
+        return res.status(403).json({
+          error: "Még nem generálhatsz új tervet.",
+          nextPlanAt: new Date(nextPlanDate),
+        });
       }
     }
 
@@ -61,7 +60,12 @@ export const calculating = async (req, res) => {
 
     const { calories, macros } = calculate(draftUser);
 
-    const planData = await GeneratePlan(draftUser, macros, calories);
+    const planData = await GeneratePlan(
+      draftUser,
+      macros,
+      calories,
+      userData.diet,
+    );
 
     const draftPlan = {
       calories,
@@ -73,6 +77,5 @@ export const calculating = async (req, res) => {
     res.json({ macros, plan: draftPlan, calories, user });
   } catch (error) {
     console.log(error);
-    
   }
 };

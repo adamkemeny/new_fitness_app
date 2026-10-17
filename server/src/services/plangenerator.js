@@ -35,8 +35,8 @@ const getFoodData = async () => {
   };
 };
 
-export const GenerateMeals = async (user, calories) => {
-    const days = [
+export const GenerateMeals = async (user, calories, diet) => {
+  const days = [
     "Hetfő",
     "Kedd",
     "Szerda",
@@ -48,13 +48,13 @@ export const GenerateMeals = async (user, calories) => {
   const foodData = await getFoodData();
   const meals = days.map((day) => ({
     day,
-    meals: generateMeals(calories, user.intolerances, foodData),
+    meals: generateMeals(calories, user.intolerances, foodData, diet),
   }));
   return meals;
-}
+};
 
-export const GeneratePlan = async (User, Macros, calories) => {
+export const GeneratePlan = async (User, Macros, calories, diet) => {
   const workouts = await generateWorkouts(User);
-  const meals = await GenerateMeals (User, calories);
+  const meals = await GenerateMeals(User, calories, diet);
   return { workouts, meals };
 };

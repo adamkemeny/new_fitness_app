@@ -27,6 +27,7 @@ function Home() {
     preferedLocation: "gym",
     difficulty: "beginner",
     lifestyle: "sitting",
+    diet: "normal",
 
     availability: {
       Hétfő: [],
@@ -143,7 +144,7 @@ function Home() {
      LOGOUT
   ========================================================= */
 
-  const handleLogOut = async() => {
+  const handleLogOut = async () => {
     try {
       await axios.post("/api/auth/logout");
       localStorage.removeItem("token");
@@ -151,8 +152,7 @@ function Home() {
 
       setUser(null);
       navigate("/login");
-
-    } catch(error) {
+    } catch (error) {
       console.log("Logout error:", error);
       alert("Nem sikerült kijelentkezni.");
     }
@@ -449,6 +449,14 @@ function Home() {
           <option value="other">Otthoni edzés</option>
         </select>
 
+        <select name="diet" onChange={handleChange} value={formdata.diet}>
+          <option value="normal">Normál étrend</option>
+
+          <option value="vegetarian">Vegetáriánus étrend</option>
+
+          <option value="vegan">Vegán étrend</option>
+        </select>
+
         {/* ===================================
             INTOLERANCES
         =================================== */}
@@ -644,7 +652,6 @@ function Home() {
                   <h3>
                     {dayPlan.day}
 
-                    {workoutDay?.type ? ` (${workoutDay.type})` : ""}
                   </h3>
 
                   {/* MEALS */}

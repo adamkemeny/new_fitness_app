@@ -64,5 +64,11 @@ export const profileSchema = z.strictObject({
         numberInput(0, 1440).optional()
     ),
 
-  availability: availabilitySchema
+  availability: availabilitySchema,
+  
+  diet: z.enum([
+    "normal",
+    "vegetarian",
+    "vegan"
+  ])
 });
