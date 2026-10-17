@@ -10,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import "./All-pages-2.css";
+import "./All-pages.css";
 
 export default function Weightlog() {
   const [userWeightHistory, setUserWeightHistory] = useState([]);

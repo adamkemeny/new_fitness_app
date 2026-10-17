@@ -15,9 +15,7 @@ export default function Login() {
   const handleLogin = async (R) => {
     R.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", loginData);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      await axios.post("/api/auth/login", loginData);
       navigate("/home");
     } catch (error) {
       console.error(error);

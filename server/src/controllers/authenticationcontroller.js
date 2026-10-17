@@ -2,9 +2,8 @@ import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-
-export const register =  async (req, res) => {
-  const { email, password, ...rest } = req.body;
+export const register = async (req, res) => {
+  const { email, password, name } = req.body;
   try {
     const user = await User.findOne({
       email,
@@ -20,7 +19,7 @@ export const register =  async (req, res) => {
     const newUser = await User.create({
       email,
       password: hasheadPassword,
-      ...rest,
+      name,
     });
     res.json({ message: "User created." });
   } catch (error) {
@@ -30,7 +29,7 @@ export const register =  async (req, res) => {
   }
 };
 
-export const login =  async (req, res) => {
+export const login = async (req, res) => {
   const { email, password, ...rest } = req.body;
   try {
     const user = await User.findOne({
@@ -54,9 +53,22 @@ export const login =  async (req, res) => {
     const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
     res.json({
-      token,
-      user
+      message: "Successful login",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -64,3 +76,26 @@ export const login =  async (req, res) => {
     });
   }
 };
+
+export const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: "/",
+  });
+  res.json({message: "Successful logout."})
+};
+
+export const getme = async (req, res) => {
+  try {
+    const user = await User.findById(req.userID).select("-password");
+    if(!user){
+      return res.status(404).json({error: "User not found."});
+    }
+    res.json({user});
+  } catch (error) {
+    res.status(500).json({error: "Server error."});
+  }
+}

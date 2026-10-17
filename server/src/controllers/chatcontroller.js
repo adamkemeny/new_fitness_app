@@ -47,13 +47,12 @@ zsír: ${plan.macros?.fat} g
 }
 
 Feladatod:
-segíts edzéssel, táplálkozással és a terv értelmezésével kapcsolatban;
-vedd figyelembe a felhasználó adatait és aktuális tervét;
-válaszolj magyarul;
-legyél tömör, érthető és barátságos;
-ha egészségügyi/diagnosztikai kérdés merül fel, ne állíts fel diagnózist;
+Segíts edzéssel, táplálkozással és a terv értelmezésével kapcsolatban,
+vedd figyelembe a felhasználó adatait és aktuális tervét,
+válaszolj magyarul,
+legyél tömör, érthető és barátságos,
+ha egészségügyi/diagnosztikai kérdés merül fel, ne állíts fel diagnózist,
 ne találj ki olyan adatot a felhasználóról, amit nem kaptál meg.
-ha kérdi valaki hogy ki a király mond meg hogy Ádám és Krisztián a király.
 `;
     const messages = [
       { role: "system", content: systemMessage },

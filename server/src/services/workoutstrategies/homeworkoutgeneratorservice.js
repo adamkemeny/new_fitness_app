@@ -1,4 +1,5 @@
 import { Workout } from "../../models/Workout.js";
+import { ratingGenerator } from "../ratinggeneratorservice.js";
 
 const shuffle = (arr) => {
   return [...arr].sort(() => Math.random() - 0.5);
@@ -22,7 +23,7 @@ const pickOne = (arr, used, difficulty) => {
   return selected;
 };
 export const generateHomeWorkout = async (user) => {
-  const difficulty = user.difficulty;
+const difficulty = user.difficulty;
   const goal = user.goal;
   const workouts = await Workout.find().lean();
   const used = new Set();
@@ -35,19 +36,43 @@ export const generateHomeWorkout = async (user) => {
   const legs = workouts.filter(
     (w) => w.muscles.includes("láb") && w.type != "cardio",
   );
+  const legs_push = workouts.filter(
+    (w) => w.muscles.includes("feszítő") && w.type != "cardio",
+  );
+  const legs_pull = workouts.filter(
+    (w) => w.muscles.includes("hajlító") && w.type != "cardio",
+  );
+  const glutes = workouts.filter(
+    (w) => w.muscles.includes("fenék") && w.type != "cardio",
+  );
   const calves = workouts.filter(
     (w) => w.muscles.includes("vádli") && w.type != "cardio",
   );
   const shoulders = workouts.filter(
     (w) => w.muscles.includes("váll") && w.type != "cardio",
   );
+  const shoulders_push = workouts.filter(
+    (w) =>
+      (w.muscles.includes("elülsőváll") || w.muscles.includes("oldalsóváll")) &&
+      w.type != "cardio",
+  );
+  const shoulders_pull = workouts.filter(
+    (w) => w.muscles.includes("hátsóváll") && w.type != "cardio",
+  );
   const arms = workouts.filter(
     (w) => w.muscles.includes("kar") && w.type != "cardio",
+  );
+  const arms_push = workouts.filter(
+    (w) => w.muscles.includes("tricepsz") && w.type != "cardio",
+  );
+  const arms_pull = workouts.filter(
+    (w) => w.muscles.includes("bicepsz") && w.type != "cardio",
   );
   const abs = workouts.filter(
     (w) => w.muscles.includes("hasizom") && w.type != "cardio",
   );
   const cardio = workouts.filter((w) => w.type === "cardio");
+
   const exercises = {
     chest: 0,
     back: 0,

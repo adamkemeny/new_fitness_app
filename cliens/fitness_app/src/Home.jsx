@@ -58,11 +58,7 @@ function Home() {
 
   const [loadingPlan, setLoadingPlan] = useState(true);
 
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("user");
-
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState(null);
 
   /* =========================================================
      CHAT STATES
@@ -107,8 +103,6 @@ function Home() {
 
           setUser(dbUser);
 
-          localStorage.setItem("user", JSON.stringify(dbUser));
-
           setFormdata((prev) => ({
             ...prev,
 
@@ -149,13 +143,19 @@ function Home() {
      LOGOUT
   ========================================================= */
 
-  const handleLogOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  const handleLogOut = async() => {
+    try {
+      await axios.post("/api/auth/logout");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
 
-    setUser(null);
+      setUser(null);
+      navigate("/login");
 
-    navigate("/login");
+    } catch(error) {
+      console.log("Logout error:", error);
+      alert("Nem sikerült kijelentkezni.");
+    }
   };
 
   /* =========================================================
@@ -233,8 +233,6 @@ function Home() {
       setSavedPlan(res.data.plan);
 
       setUser(res.data.user);
-
-      localStorage.setItem("user", JSON.stringify(res.data.user));
 
       setIsDraft(false);
       setCanGenerate(false);

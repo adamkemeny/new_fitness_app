@@ -2,8 +2,6 @@ import { response } from "express";
 import { Plan } from "../models/Plan.js";
 import { User } from "../models/User.js";
 
-//az izomépítő gyakorlatokhoz caloriesPerReps
-
 const estimateCalories = (w) => {
   if (w.type === "cardio") {
     return w.duration * w.caloriesPerMin;
@@ -23,7 +21,10 @@ const calculateBurn = (w, input) => {
 export const saveProgress = async (req, res) => {
   const userID = req.userID;
   const { planID, date, workouts, meals } = req.body;
-  const plan = await Plan.findById(planID);
+  const plan = await Plan.findOne({ 
+    _id: planID, 
+    userID: req.userID 
+  });
   if (!plan) {
     return res.status(404).json({ Error: "Error: Plan not found" });
   }
@@ -85,43 +86,42 @@ export const saveProgress = async (req, res) => {
     meals: mealResults,
     totalBurned,
     totalIntake,
-    net
+    net,
   };
   plan.dailyLog.push(log);
   await plan.save();
   res.json(log);
 };
 
-export const getWeightHistory = async (req,res) => {
+export const getWeightHistory = async (req, res) => {
   const user = await User.findById(req.userID);
-  if(!user){
-    return res.status(404).json({error : "User not found"});
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
   }
-  res.json({weightHistory : user.weightHistory});
+  res.json({ weightHistory: user.weightHistory });
 };
 
-export const weightEntry = async (req,res) => {
+export const weightEntry = async (req, res) => {
   const user = await User.findById(req.userID);
-  if(!user){
-    return res.status(404).json({error : "User not found"});
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
   }
-  const {weight} = req.body;
+  const { weight } = req.body;
   const now = new Date();
   const startOfDay = new Date(now);
-  startOfDay.setHours(0,0,0,0);
+  startOfDay.setHours(0, 0, 0, 0);
   const endOfDay = new Date(now);
-  endOfDay.setHours(23,59,59,999);
+  endOfDay.setHours(23, 59, 59, 999);
   const existingEnrty = user.weightHistory.find((entry) => {
     return entry.date >= startOfDay && entry.date <= endOfDay;
-  })
-  if(existingEnrty){
+  });
+  if (existingEnrty) {
     existingEnrty.weight = weight;
     existingEnrty.date = now;
-  }
-  else{
-    user.weightHistory.push({date: new Date(), weight });
+  } else {
+    user.weightHistory.push({ date: new Date(), weight });
   }
   user.weight = weight;
   await user.save();
-  res.json({weightHistory : user.weightHistory, userWeight: weight});
-}
+  res.json({ weightHistory: user.weightHistory, userWeight: weight });
+};

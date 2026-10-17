@@ -10,51 +10,58 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { authmiddleware } from "./routes/auth.js";
 import { calculate } from "./services/calculateservice.js";
-import  chatrouter  from "./routes/chatroute.js";
-import  calculating  from "./routes/calculateroute.js";
-import  authenticationrouter  from "./routes/authenticationroute.js";
-import  planrouter  from "./routes/planroute.js"
-import  progressrouter  from "./routes/progressroute.js"
-//import  userRouter  from "./routes/userRoute.js";
-//import profileRouter from "./routes/profileRoute.js";
+import chatrouter from "./routes/chatroute.js";
+import calculating from "./routes/calculateroute.js";
+import authenticationrouter from "./routes/authenticationroute.js";
+import planrouter from "./routes/planroute.js";
+import progressrouter from "./routes/progressroute.js";
+import cookieParser from "cookie-parser";
+import { apiLimiter } from "./middlewares/limiters.js";
 
 const app = express();
-
-app.use(cors());
-app.use(express.json());
 dotenv.config();
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
+app.use(express.json());
+app.use(cookieParser());
+app.use("/api",apiLimiter);
 
 mongoose
-  .connect(process.env.MONGO_ATLAS_URI,{dbName: "fitness-app"})
+  .connect(process.env.MONGO_ATLAS_URI, { dbName: "fitness-app" })
   .then(() => console.log("MongoDB is running"))
   .catch((R) => console.error("MongoDB Error: ", R));
 
-app.get("/api/users", authmiddleware,async (req, res) => {
-  const users = await User.find();
-  res.json({users});
-});
-
-
-app.use("/api/chat",authmiddleware,chatrouter);
+app.use("/api/chat", authmiddleware, chatrouter);
 
 app.get("/api/health", (req, res) => {
   res.json({ message: "Backend működik 🚀" });
 });
 
-app.get("/api/users", async (req, res) => {
-  const Users = await User.find();
-  res.json({ Users });
+app.use("/api", (req, res, next) => {
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) {
+    const origin = req.get("Origin");
+
+    if (origin !== process.env.CLIENT_URL) {
+      return res.status(403).json({
+        error: "Forbidden origin.",
+      });
+    }
+  }
+
+  next();
 });
 
-app.use("/api/auth",authenticationrouter);
+app.use("/api/auth", authenticationrouter);
 
-app.use("/api/calculate", authmiddleware,calculating);
+app.use("/api/calculate", authmiddleware, calculating);
 
-app.use("/api/plan",authmiddleware,planrouter);
+app.use("/api/plan", authmiddleware, planrouter);
 
-app.use ("/api/progress",authmiddleware,progressrouter);
-
-
+app.use("/api/progress", authmiddleware, progressrouter);
 
 const PORT = 5000;
 
