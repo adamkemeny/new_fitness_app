@@ -26,10 +26,6 @@
 }
 
 
-/* ========================================
-   RESET
-======================================== */
-
 * {
   box-sizing: border-box;
 }
@@ -69,10 +65,6 @@ body {
 }
 
 
-/* ========================================
-   TYPOGRAPHY
-======================================== */
-
 h1,
 h2,
 h3,
@@ -101,9 +93,6 @@ a:hover {
 }
 
 
-/* ========================================
-   APP CONTAINER
-======================================== */
 
 .app-container {
   width: min(1200px, calc(100% - 32px));
@@ -114,9 +103,6 @@ a:hover {
 }
 
 
-/* ========================================
-   GENERAL CARD
-======================================== */
 
 .card {
   background: rgba(30, 41, 59, 0.92);
@@ -133,9 +119,6 @@ a:hover {
 }
 
 
-/* ========================================
-   FORMS
-======================================== */
 
 form {
   background: var(--surface);
@@ -210,9 +193,6 @@ select:focus {
 }
 
 
-/* ========================================
-   CHECKBOX
-======================================== */
 
 form div:has(input[type="checkbox"]) {
   grid-column: 1 / -1;
@@ -274,9 +254,6 @@ input[type="checkbox"] {
 }
 
 
-/* ========================================
-   DEFAULT BUTTONS
-======================================== */
 
 button {
   appearance: none;
@@ -364,9 +341,6 @@ form > button {
 }
 
 
-/* ========================================
-   USER MENU
-======================================== */
 
 .user-menu {
   position: fixed;
@@ -418,9 +392,6 @@ form > button {
 }
 
 
-/* ========================================
-   CALORIES
-======================================== */
 
 .calorie-card {
   padding: 24px;
@@ -453,9 +424,6 @@ form > button {
 }
 
 
-/* ========================================
-   MACROS
-======================================== */
 
 .macros {
   display: grid;
@@ -517,9 +485,6 @@ form > button {
 }
 
 
-/* ========================================
-   WEEKLY PLAN
-======================================== */
 
 .weekly-plan {
   margin-top: 40px;
@@ -579,9 +544,6 @@ form > button {
 }
 
 
-/* ========================================
-   AI CHAT
-======================================== */
 
 .chat-section {
   margin-top: 50px;
@@ -688,9 +650,6 @@ form > button {
 }
 
 
-/* ========================================
-   MARKDOWN
-======================================== */
 
 .message-content {
   line-height: 1.6;
@@ -749,9 +708,6 @@ form > button {
 }
 
 
-/* ========================================
-   MARKDOWN TABLE
-======================================== */
 
 .message-content table {
   width: 100%;
@@ -789,9 +745,6 @@ form > button {
 }
 
 
-/* ========================================
-   AUTH PAGES
-======================================== */
 
 .auth-page {
   min-height: 100vh;
@@ -850,9 +803,6 @@ form > button {
 }
 
 
-/* ========================================
-   PROGRESS PAGE
-======================================== */
 
 .progress-page {
   width: min(1000px, calc(100% - 32px));
@@ -923,9 +873,6 @@ form > button {
 }
 
 
-/* ========================================
-   AVAILABILITY OVERLAY
-======================================== */
 
 .availability-overlay {
   position: fixed;
@@ -948,9 +895,6 @@ form > button {
 }
 
 
-/* ========================================
-   AVAILABILITY MODAL
-======================================== */
 
 .availability-modal {
   width: min(950px, 100%);
@@ -974,9 +918,6 @@ form > button {
 }
 
 
-/* ========================================
-   AVAILABILITY HEADER
-======================================== */
 
 .availability-header {
   display: flex;
@@ -999,9 +940,6 @@ form > button {
 }
 
 
-/* ========================================
-   CLOSE BUTTON
-======================================== */
 
 .availability-close {
   width: 40px !important;
@@ -1046,9 +984,6 @@ form > button {
 }
 
 
-/* ========================================
-   AVAILABILITY GRID
-======================================== */
 
 .availability-grid {
   display: grid;
@@ -1064,9 +999,6 @@ form > button {
 }
 
 
-/* ========================================
-   DAY HEADERS
-======================================== */
 
 .availability-day {
   display: flex;
@@ -1095,9 +1027,6 @@ form > button {
 }
 
 
-/* ========================================
-   HOURS
-======================================== */
 
 .availability-hour {
   display: flex;
@@ -1114,15 +1043,6 @@ form > button {
 }
 
 
-/* ========================================
-   AVAILABILITY SLOT
-======================================== */
-
-/*
-   FONTOS:
-   Ezek direkt felülírják a globális
-   button stílust.
-*/
 
 button.availability-slot {
   appearance: none !important;
@@ -1161,7 +1081,6 @@ button.availability-slot {
 }
 
 
-/* NINCS KIVÁLASZTVA + HOVER */
 
 button.availability-slot:not(.selected):hover {
   background-color: #334155 !important;
@@ -1176,7 +1095,6 @@ button.availability-slot:not(.selected):hover {
 }
 
 
-/* KIVÁLASZTVA */
 
 button.availability-slot.selected {
   background-color: #22c55e !important;
@@ -1191,7 +1109,6 @@ button.availability-slot.selected {
 }
 
 
-/* KIVÁLASZTVA + HOVER */
 
 button.availability-slot.selected:hover {
   background-color: #4ade80 !important;
@@ -1206,16 +1123,12 @@ button.availability-slot.selected:hover {
 }
 
 
-/* SLOT ACTIVE */
 
 button.availability-slot:active {
   transform: none !important;
 }
 
 
-/* ========================================
-   AVAILABILITY SAVE
-======================================== */
 
 .availability-save {
   width: 100%;
@@ -1238,16 +1151,7 @@ button.availability-slot:active {
 }
 
 
-/* ========================================
-   FINAL BUTTON OVERRIDE
-======================================== */
 
-/*
-   A lényeg itt van:
-   availability-slot és availability-close
-   KI VAN ZÁRVA minden általános
-   zöld gomb szabályból.
-*/
 
 .app-container
 button:not(.availability-slot):not(.availability-close):not(:disabled),
@@ -1300,9 +1204,6 @@ button:not(.availability-slot):not(.availability-close):not(:disabled):active {
 }
 
 
-/* ========================================
-   SCROLLBAR
-======================================== */
 
 ::-webkit-scrollbar {
   width: 9px;
@@ -1325,9 +1226,6 @@ button:not(.availability-slot):not(.availability-close):not(:disabled):active {
 }
 
 
-/* ========================================
-   MOBILE
-======================================== */
 
 @media (max-width: 768px) {
 

@@ -121,7 +121,7 @@ export const savePlan = async (req, res) => {
       createdAt: -1,
     });
     if (currentPlan) {
-      const nextTime = new Date(plan.createdAt).getTime() + oneWeek;
+      const nextTime = new Date(currentPlan.createdAt).getTime() + oneWeek;
       if (Date.now() < nextTime) {
         return res.status(403).json({
           error: `You can not create a new plan at the moment. Try again at:${nextTime} `,

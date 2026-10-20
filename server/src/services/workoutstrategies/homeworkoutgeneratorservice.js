@@ -342,6 +342,24 @@ const difficulty = user.difficulty;
         pickedExercises.push(item);
       }
     }
+       for (let i = 0; i < exercises.glutes; i++) {
+      const item = pickOne(glutes, used, difficulty);
+      if (item) {
+        pickedExercises.push(item);
+      }
+    }
+    for (let i = 0; i < exercises.cardio; i++) {
+      const item = pickOne(cardio, used, difficulty);
+      if (item) {
+        pickedExercises.push(item);
+      }
+    }
+    for (let i = 0; i < exercises.calves; i++) {
+      const item = pickOne(calves, used, difficulty);
+      if (item) {
+        pickedExercises.push(item);
+      }
+    }
 
     for (let key in exercises) {
       exercises[key] = 0;

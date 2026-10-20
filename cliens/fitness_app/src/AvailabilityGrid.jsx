@@ -58,7 +58,6 @@ function AvailabilityGrid({
         }
       >
 
-        {/* HEADER */}
 
         <div className="availability-header">
           <h3>
@@ -75,7 +74,6 @@ function AvailabilityGrid({
         </div>
 
 
-        {/* GRID */}
 
         <div className="availability-grid">
 
@@ -130,8 +128,6 @@ function AvailabilityGrid({
 
         </div>
 
-
-        {/* SAVE */}
 
         <button
           type="button"

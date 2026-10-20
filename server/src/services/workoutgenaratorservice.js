@@ -7,7 +7,6 @@ import { generatePPL } from "./workoutstrategies/pplgeneratorservice.js";
 import { generateUpperLower } from "./workoutstrategies/upperlowergeneratorservice.js";
 
 export const generateWorkouts = async (user) => {
-  
   const all = await Workout.find().lean();
   const workoutMap = Object.fromEntries(all.map((w) => [w._id, w]));
   const preferedLocation = user.preferedLocation;
@@ -29,7 +28,6 @@ export const generateWorkouts = async (user) => {
     else if(dayCount === 3){
       let isEverydaySuitable = true;
       for(const day of listOfAvailableDays){
-        console.log(day);
         if(availability[day].length != 1){
           isEverydaySuitable = false;
           break;
@@ -65,33 +63,5 @@ export const generateWorkouts = async (user) => {
     }
   }
     
-  
-
-  /*if(preferedLocation == "gym" || preferedLocation == "both"){
-    if(goal == "lose"){
-      workouts = await generateFullbody(user); 
-    }
-    else if(goal == "upkeep"){
-      workouts = await generatePPL(user);
-    }
-    else
-    {
-      workouts = await generateUpperLower(user);
-    }
-  }
-  else if(preferedLocation == "other" || preferedLocation == "both"){
-    if(goal == "lose"){
-      workouts = await generateHIIT(user); 
-    }
-    else if(goal == "upkeep"){
-      workouts = await generateHomeWorkout(user);
-    }
-    else
-    {
-      workouts = await generateHomeWorkout(user);
-    }
-  }*/
-
-  
   return workouts;
 };

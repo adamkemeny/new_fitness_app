@@ -500,6 +500,12 @@ export const generateUpperLower = async (user) => {
         pickedExercises.push(item);
       }
     }
+    for (let i = 0; i < exercises.shoulders_delts; i++) {
+      const item = pickOne(shoulders_delts, used, difficulty);
+      if (item) {
+        pickedExercises.push(item);
+      }
+    }
     for (let i = 0; i < exercises.arms; i++) {
       const item = pickOne(arms, used, difficulty);
       if (item) {
@@ -535,7 +541,7 @@ export const generateUpperLower = async (user) => {
     if (day == 5) {
       day = 1;
     }
-    
+
     for (let key in exercises) {
       exercises[key] = 0;
     }

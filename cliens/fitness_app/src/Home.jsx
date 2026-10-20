@@ -12,9 +12,6 @@ import "./All-pages.css";
 function Home() {
   const navigate = useNavigate();
 
-  /* =========================================================
-     FORM DATA
-  ========================================================= */
 
   const [formdata, setFormdata] = useState({
     age: "",
@@ -40,9 +37,6 @@ function Home() {
     },
   });
 
-  /* =========================================================
-     STATES
-  ========================================================= */
 
   const [isGridOpen, setIsGridOpen] = useState(false);
 
@@ -61,16 +55,11 @@ function Home() {
 
   const [user, setUser] = useState(null);
 
-  /* =========================================================
-     CHAT STATES
-  ========================================================= */
 
   const [chatMessage, setChatMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
 
-  /* =========================================================
-     CURRENT PLAN BETÖLTÉSE
-  ========================================================= */
+
 
   useEffect(() => {
     axios
@@ -140,9 +129,6 @@ function Home() {
     loadCurrentPlan();
   }, []);
 
-  /* =========================================================
-     LOGOUT
-  ========================================================= */
 
   const handleLogOut = async () => {
     try {
@@ -158,9 +144,6 @@ function Home() {
     }
   };
 
-  /* =========================================================
-     FORM CHANGE
-  ========================================================= */
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -171,9 +154,6 @@ function Home() {
     }));
   };
 
-  /* =========================================================
-     INTOLERANCE CHECKBOX
-  ========================================================= */
 
   const handleCheckbox = (event) => {
     const { value, checked } = event.target;
@@ -187,14 +167,12 @@ function Home() {
     }));
   };
 
-  /* =========================================================
-     TERV GENERÁLÁS
-  ========================================================= */
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
+      console.log(formdata);
       const res = await axios.post("/api/calculate/calculate", formdata);
 
       setUser(res.data.user);
@@ -214,9 +192,6 @@ function Home() {
     }
   };
 
-  /* =========================================================
-     TERV MENTÉS
-  ========================================================= */
 
   const handleSavedPlan = async () => {
     if (!isDraft || !plan) {
@@ -247,9 +222,6 @@ function Home() {
     }
   };
 
-  /* =========================================================
-     MENTETT TERV VISSZAÁLLÍTÁS
-  ========================================================= */
 
   const handleRestorePlan = () => {
     if (!savedPlan) {
@@ -265,17 +237,11 @@ function Home() {
     setIsDraft(false);
   };
 
-  /* =========================================================
-     WEIGHT GRAPH
-  ========================================================= */
 
   const handleGraphRedirector = () => {
     navigate("/progress/weight");
   };
 
-  /* =========================================================
-     AI CHAT
-  ========================================================= */
 
   const sendMessage = async () => {
     if (!chatMessage.trim()) {
@@ -320,9 +286,6 @@ function Home() {
     }
   };
 
-  /* =========================================================
-     LOADING
-  ========================================================= */
 
   if (loadingPlan) {
     return (
@@ -332,15 +295,9 @@ function Home() {
     );
   }
 
-  /* =========================================================
-     JSX
-  ========================================================= */
 
   return (
     <div className="app-container">
-      {/* ===================================
-          USER MENU
-      =================================== */}
 
       {user && (
         <div className="user-menu">
@@ -352,9 +309,6 @@ function Home() {
         </div>
       )}
 
-      {/* ===================================
-          PROFILE / PLAN FORM
-      =================================== */}
 
       <form onSubmit={handleSubmit}>
         <input
@@ -385,7 +339,6 @@ function Home() {
           min="1"
         />
 
-        {/* GENDER */}
 
         <select name="gender" onChange={handleChange} value={formdata.gender}>
           <option value="male">Férfi</option>
@@ -393,7 +346,6 @@ function Home() {
           <option value="female">Nő</option>
         </select>
 
-        {/* GOAL */}
 
         <select name="goal" onChange={handleChange} value={formdata.goal}>
           <option value="upkeep">Szintentartás</option>
@@ -403,7 +355,6 @@ function Home() {
           <option value="lose">Fogyás</option>
         </select>
 
-        {/* LIFESTYLE */}
 
         <select
           name="lifestyle"
@@ -421,7 +372,6 @@ function Home() {
           <option value="extremelyactive">Extra aktív</option>
         </select>
 
-        {/* DIFFICULTY */}
 
         <select
           name="difficulty"
@@ -437,7 +387,6 @@ function Home() {
           <option value="pro">Profi</option>
         </select>
 
-        {/* LOCATION */}
 
         <select
           name="preferedLocation"
@@ -446,7 +395,7 @@ function Home() {
         >
           <option value="gym">Edzőtermi edzés</option>
 
-          <option value="other">Otthoni edzés</option>
+          <option value="other">Nem edzőtermi edzés (pl. otthoni edzés, kinti edzés)</option>
         </select>
 
         <select name="diet" onChange={handleChange} value={formdata.diet}>
@@ -457,9 +406,6 @@ function Home() {
           <option value="vegan">Vegán étrend</option>
         </select>
 
-        {/* ===================================
-            INTOLERANCES
-        =================================== */}
 
         <div>
           <p>Ételintoleranciák:</p>
@@ -505,9 +451,6 @@ function Home() {
           </label>
         </div>
 
-        {/* ===================================
-            AVAILABILITY
-        =================================== */}
 
         <AvailabilityGrid
           isOpen={isGridOpen}
@@ -528,19 +471,12 @@ function Home() {
           Mikor érek rá edzeni?
         </button>
 
-        {/* ===================================
-            GENERATE PLAN
-        =================================== */}
 
         {canGenerate && (
           <button type="submit">
             {savedPlan ? "Új terv generálása" : "Terv generálása"}
           </button>
         )}
-
-        {/* ===================================
-            DRAFT PLAN BUTTONS
-        =================================== */}
 
         {isDraft && (
           <div
@@ -563,9 +499,6 @@ function Home() {
           </div>
         )}
 
-        {/* ===================================
-            NEXT PLAN DATE
-        =================================== */}
 
         {!canGenerate && nextPlanAt && (
           <p
@@ -578,17 +511,12 @@ function Home() {
         )}
       </form>
 
-      {/* ===================================
-          GRAPH BUTTON
-      =================================== */}
 
       <button type="button" onClick={handleGraphRedirector}>
         📈 Grafikon megtekintése
       </button>
 
-      {/* ===================================
-          CALORIES
-      =================================== */}
+ 
 
       {calories != null && (
         <div className="calorie-card">
@@ -598,9 +526,6 @@ function Home() {
         </div>
       )}
 
-      {/* ===================================
-          MACROS
-      =================================== */}
 
       {macros && (
         <div className="macros">
@@ -624,9 +549,6 @@ function Home() {
         </div>
       )}
 
-      {/* ===================================
-          WEEKLY PLAN
-      =================================== */}
 
       {plan && (
         <div className="weekly-plan">
@@ -647,14 +569,12 @@ function Home() {
                   key={dayPlan._id ?? `${dayPlan.day}-${i}`}
                   className="day-card"
                 >
-                  {/* DAY */}
 
                   <h3>
                     {dayPlan.day}
 
                   </h3>
 
-                  {/* MEALS */}
 
                   <h4>🍽 Étrend</h4>
 
@@ -678,7 +598,6 @@ function Home() {
                     <p>Nincs étkezés megadva.</p>
                   )}
 
-                  {/* WORKOUT */}
 
                   <h4
                     style={{
@@ -749,9 +668,6 @@ function Home() {
         </div>
       )}
 
-      {/* ===================================
-          AI FITNESS COACH
-      =================================== */}
 
       <div className="chat-section">
         <h3>🤖 AI Fitness Coach</h3>
@@ -762,12 +678,6 @@ function Home() {
           )}
 
           {chatHistory.map((msg, i) => {
-            /*
-             * Ha az AI mégis <br>
-             * vagy <br /> tageket
-             * generál, normál
-             * sortöréssé alakítjuk.
-             */
 
             const cleanMessage =
               msg.content

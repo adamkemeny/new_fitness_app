@@ -47,7 +47,7 @@ export const calculating = async (req, res) => {
     }
 
     const draftUser = user.toObject();
-
+  
     allowedFields.forEach((field) => {
       if (userData[field] !== undefined) {
         draftUser[field] = userData[field];
