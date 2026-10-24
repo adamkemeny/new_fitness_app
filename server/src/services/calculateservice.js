@@ -35,10 +35,12 @@ export const calculate = (data) => {
     }
 
     let calories = goal === "lose" ? (bmr*score)*0.8 : goal === "bulk" ? (bmr*score)*1.2 : bmr*score;
+
     const protein1 = goal === "bulk" ? weight * 2 : goal === "lose" ? weight * 1.6 : weight * 1.4;
     const fat1 = weight * 0.8;
     const remainingCalories = calories - (protein1 * 4 + fat1 * 9);
     const carbs1 = remainingCalories / 4;
+
     calories = Math.floor(calories);
 
      const macros = {

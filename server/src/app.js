@@ -18,11 +18,16 @@ import progressrouter from "./routes/progressroute.js";
 import cookieParser from "cookie-parser";
 import { apiLimiter } from "./middlewares/limiters.js";
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://192.168.1.10:5173"
+]
+
 const app = express();
 dotenv.config();
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
@@ -45,7 +50,7 @@ app.use("/api", (req, res, next) => {
   if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) {
     const origin = req.get("Origin");
 
-    if (origin !== process.env.CLIENT_URL) {
+    if (origin && !allowedOrigins.includes(origin)) {
       return res.status(403).json({
         error: "Forbidden origin.",
       });

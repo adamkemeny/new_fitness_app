@@ -25,10 +25,14 @@ export default function Weightlog() {
 
     try {
       const res = await axios.post("/api/progress/weight", formdata);
-      const formatted = res.data.weightHistory.map((entry) => ({
-        date: new Date(entry.date),
-        weight: entry.weight,
-      }));
+      const formatted = res.data.weightHistory
+        .map((entry) => ({
+          date: new Date(entry.date).getTime(),
+          weight: entry.weight,
+        }))
+        .filter((entry) => {
+          return Number.isFinite(entry.date) && Number.isFinite(entry.weight);
+        });
       setData(formatted);
       setUserWeightHistory(res.data.weightHistory);
     } catch (error) {
@@ -36,10 +40,10 @@ export default function Weightlog() {
     }
   };
 
-    const navigateToHome = useNavigate();
-    const handleHomeRedirector = () =>{
-      navigateToHome("/home");
-    } 
+  const navigateToHome = useNavigate();
+  const handleHomeRedirector = () => {
+    navigateToHome("/home");
+  };
 
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -65,7 +69,12 @@ export default function Weightlog() {
             tickFormatter={(date) => new Date(date).toLocaleDateString("hu-HU")}
           />
           <YAxis domain={["auto", "auto"]} unit=" kg" />
-          <Tooltip />
+          <Tooltip
+            labelFormatter={(value) =>
+              new Date(value).toLocaleDateString("hu-HU")
+            }
+            formatter={(value) => [`${value} kg`, "Testsúly"]}
+          />
           <Line
             type="monotone"
             dataKey="weight"
@@ -86,7 +95,9 @@ export default function Weightlog() {
         />
         <button type="submit">Súly hozzáadása</button>
       </form>
-      <button type="navigateToHome" onClick={handleHomeRedirector}>Vissza a főoldalra</button>
+      <button type="navigateToHome" onClick={handleHomeRedirector}>
+        Vissza a főoldalra
+      </button>
     </div>
   );
 }

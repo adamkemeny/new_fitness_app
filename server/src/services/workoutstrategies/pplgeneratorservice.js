@@ -269,15 +269,12 @@ export const generatePPL = async (user) => {
     switch (day) {
       case 1:
         prototype_push();
-        console.log("generating push");
         break;
       case 2:
         prototype_pull();
-        console.log("generating pull");
         break;
       case 3:
         prototype_legs();
-        console.log("generating legs");
         break;
       default:
         break;

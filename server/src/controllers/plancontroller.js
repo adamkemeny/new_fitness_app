@@ -1,6 +1,7 @@
 import { Plan } from "../models/Plan.js";
 import { User } from "../models/User.js";
 import { GenerateMeals } from "../services/plangenerator.js";
+import { weightUpdater } from "./progresscontroller.js";
 
 const oneWeek = 7 * 24 * 60 * 60 * 1000;
 
@@ -157,7 +158,7 @@ export const savePlan = async (req, res) => {
       mealsUpdatedAt: new Date(),
     });
     if (profile?.weight) {
-      user.weightHistory.push({ date: new Date(), weight: profile.weight });
+     weightUpdater(user,profile.weight);
     }
     await user.save();
     const nextPlanAt = new Date(newPlan.createdAt.getTime() + oneWeek);

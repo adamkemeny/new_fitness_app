@@ -21,9 +21,9 @@ const calculateBurn = (w, input) => {
 export const saveProgress = async (req, res) => {
   const userID = req.userID;
   const { planID, date, workouts, meals } = req.body;
-  const plan = await Plan.findOne({ 
-    _id: planID, 
-    userID: req.userID 
+  const plan = await Plan.findOne({
+    _id: planID,
+    userID: req.userID,
   });
   if (!plan) {
     return res.status(404).json({ Error: "Error: Plan not found" });
@@ -107,6 +107,11 @@ export const weightEntry = async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
   const { weight } = req.body;
+  weightUpdater(user,weight);
+  res.json({ weightHistory: user.weightHistory, userWeight: weight });
+};
+
+export const weightUpdater = (user,weight) => {
   const now = new Date();
   const startOfDay = new Date(now);
   startOfDay.setHours(0, 0, 0, 0);
@@ -122,6 +127,4 @@ export const weightEntry = async (req, res) => {
     user.weightHistory.push({ date: new Date(), weight });
   }
   user.weight = weight;
-  await user.save();
-  res.json({ weightHistory: user.weightHistory, userWeight: weight });
 };

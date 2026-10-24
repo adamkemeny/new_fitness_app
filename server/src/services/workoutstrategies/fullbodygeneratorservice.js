@@ -94,7 +94,6 @@ export const generateFullbody = async (user) => {
   let day = 1;
   const prototype_fullbody1 = () => {
     const rating = ratingGenerator(user);
-    console.log(rating,user.goal);
     if (user.gender == "male") {
       if (goal == "bulk") {
         if (rating <= 4) {
@@ -269,7 +268,6 @@ export const generateFullbody = async (user) => {
   };
   const prototype_fullbody2 = () => {
     const rating = ratingGenerator(user);
-    console.log(rating,user.goal);
     if (user.gender == "male") {
       if (goal == "bulk") {
         if (rating <= 4) {
@@ -444,10 +442,8 @@ export const generateFullbody = async (user) => {
   };
   const prototype_fullbody3 = () => {
     const rating = ratingGenerator(user);
-    console.log(rating,user.goal);
     if (user.gender == "male") {
       if (goal == "bulk") {
-        console.log("bulk meghívva");
         if (rating <= 4) {
           exercises.legs = 2;
           exercises.chest = 1;
@@ -609,15 +605,12 @@ export const generateFullbody = async (user) => {
     switch (day) {
       case 1:
         prototype_fullbody1();
-        console.log(exercises);
         break;
       case 2:
         prototype_fullbody2();
-        console.log(exercises);
         break;
       case 3:
         prototype_fullbody3();
-        console.log(exercises);
         break;
       default:
         break;
