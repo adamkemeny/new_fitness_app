@@ -12,6 +12,18 @@ import {
 } from "recharts";
 import "./All-pages.css";
 
+const formatWeightHistory = (history) => {
+  return history
+    .map((entry) => ({
+      date: new Date(entry.date).getTime(),
+      weight: Number(entry.weight),
+    }))
+    .filter(
+      (entry) => Number.isFinite(entry.date) && Number.isFinite(entry.weight),
+    )
+    .sort((a, b) => a.date - b.date);
+};
+
 export default function Weightlog() {
   const [userWeightHistory, setUserWeightHistory] = useState([]);
   const [formdata, setFormdata] = useState({
@@ -25,14 +37,7 @@ export default function Weightlog() {
 
     try {
       const res = await axios.post("/api/progress/weight", formdata);
-      const formatted = res.data.weightHistory
-        .map((entry) => ({
-          date: new Date(entry.date).getTime(),
-          weight: entry.weight,
-        }))
-        .filter((entry) => {
-          return Number.isFinite(entry.date) && Number.isFinite(entry.weight);
-        });
+      const formatted = formatWeightHistory(res.data.weightHistory);
       setData(formatted);
       setUserWeightHistory(res.data.weightHistory);
     } catch (error) {
@@ -48,10 +53,7 @@ export default function Weightlog() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios.get("/api/progress/weight").then((res) => {
-      const formatted = res.data.weightHistory.map((entry) => ({
-        date: new Date(entry.date),
-        weight: entry.weight,
-      }));
+      const formatted = formatWeightHistory(res.data.weightHistory);
       setData(formatted);
     });
   }, []);

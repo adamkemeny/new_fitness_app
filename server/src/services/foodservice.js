@@ -24,3 +24,4 @@ export const randomItem = (array, intolerances, diet) => {
   }
   return array[0];
 };
+

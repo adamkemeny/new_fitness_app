@@ -108,6 +108,7 @@ export const weightEntry = async (req, res) => {
   }
   const { weight } = req.body;
   weightUpdater(user,weight);
+  await user.save();
   res.json({ weightHistory: user.weightHistory, userWeight: weight });
 };
 

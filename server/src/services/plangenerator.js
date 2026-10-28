@@ -1,5 +1,3 @@
-//  ételek hozáadása
-
 import { Meals } from "../models/Meals.js";
 import { User } from "../models/User.js";
 import { generateMeals } from "./mealgeneratorservice.js";

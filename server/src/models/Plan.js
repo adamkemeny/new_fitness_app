@@ -36,7 +36,6 @@ const planSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   macros: { protein: Number, fat: Number, carbs: Number },
   completed: { type: Boolean, default: false },
-  feedback: { type: Number, min: 1, max: 5 },
   dailyLog: [dailyLogSchema]
 });
 
