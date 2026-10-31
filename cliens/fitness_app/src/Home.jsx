@@ -6,12 +6,12 @@ import remarkGfm from "remark-gfm";
 
 import axios from "./API/axios";
 import AvailabilityGrid from "./AvailabilityGrid.jsx";
+import PlanRating from "./PlanRating.jsx";
 
 import "./All-pages.css";
 
 function Home() {
   const navigate = useNavigate();
-
 
   const [formdata, setFormdata] = useState({
     age: "",
@@ -37,7 +37,6 @@ function Home() {
     },
   });
 
-
   const [isGridOpen, setIsGridOpen] = useState(false);
 
   const [macros, setMacros] = useState(null);
@@ -55,11 +54,8 @@ function Home() {
 
   const [user, setUser] = useState(null);
 
-
   const [chatMessage, setChatMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
-
-
 
   useEffect(() => {
     axios
@@ -117,6 +113,8 @@ function Home() {
             preferedLocation: dbUser.preferedLocation ?? "gym",
 
             availability: dbUser.availability ?? prev.availability,
+
+            diet: dbUser.diet ?? "normal"
           }));
         }
       } catch (error) {
@@ -128,7 +126,6 @@ function Home() {
 
     loadCurrentPlan();
   }, []);
-
 
   const handleLogOut = async () => {
     try {
@@ -144,7 +141,6 @@ function Home() {
     }
   };
 
-
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -153,7 +149,6 @@ function Home() {
       [name]: value,
     }));
   };
-
 
   const handleCheckbox = (event) => {
     const { value, checked } = event.target;
@@ -166,7 +161,6 @@ function Home() {
         : prev.intolerances.filter((item) => item !== value),
     }));
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -191,7 +185,6 @@ function Home() {
       );
     }
   };
-
 
   const handleSavedPlan = async () => {
     if (!isDraft || !plan) {
@@ -222,7 +215,6 @@ function Home() {
     }
   };
 
-
   const handleRestorePlan = () => {
     if (!savedPlan) {
       return;
@@ -237,11 +229,9 @@ function Home() {
     setIsDraft(false);
   };
 
-
   const handleGraphRedirector = () => {
     navigate("/progress/weight");
   };
-
 
   const sendMessage = async () => {
     if (!chatMessage.trim()) {
@@ -286,7 +276,6 @@ function Home() {
     }
   };
 
-
   if (loadingPlan) {
     return (
       <div className="app-container">
@@ -295,10 +284,8 @@ function Home() {
     );
   }
 
-
   return (
     <div className="app-container">
-
       {user && (
         <div className="user-menu">
           <span>👤 {user.name}</span>
@@ -308,7 +295,6 @@ function Home() {
           </button>
         </div>
       )}
-
 
       <form onSubmit={handleSubmit}>
         <input
@@ -339,13 +325,11 @@ function Home() {
           min="1"
         />
 
-
         <select name="gender" onChange={handleChange} value={formdata.gender}>
           <option value="male">Férfi</option>
 
           <option value="female">Nő</option>
         </select>
-
 
         <select name="goal" onChange={handleChange} value={formdata.goal}>
           <option value="upkeep">Szintentartás</option>
@@ -354,7 +338,6 @@ function Home() {
 
           <option value="lose">Fogyás</option>
         </select>
-
 
         <select
           name="lifestyle"
@@ -372,7 +355,6 @@ function Home() {
           <option value="extremelyactive">Extra aktív</option>
         </select>
 
-
         <select
           name="difficulty"
           onChange={handleChange}
@@ -387,7 +369,6 @@ function Home() {
           <option value="pro">Profi</option>
         </select>
 
-
         <select
           name="preferedLocation"
           onChange={handleChange}
@@ -395,7 +376,9 @@ function Home() {
         >
           <option value="gym">Edzőtermi edzés</option>
 
-          <option value="other">Nem edzőtermi edzés (pl. otthoni edzés, kinti edzés)</option>
+          <option value="other">
+            Nem edzőtermi edzés (pl. otthoni edzés, kinti edzés)
+          </option>
         </select>
 
         <select name="diet" onChange={handleChange} value={formdata.diet}>
@@ -405,7 +388,6 @@ function Home() {
 
           <option value="vegan">Vegán étrend</option>
         </select>
-
 
         <div>
           <p>Ételintoleranciák:</p>
@@ -451,7 +433,6 @@ function Home() {
           </label>
         </div>
 
-
         <AvailabilityGrid
           isOpen={isGridOpen}
           onClose={() => {
@@ -470,7 +451,6 @@ function Home() {
         <button type="button" onClick={() => setIsGridOpen(true)}>
           Mikor érek rá edzeni?
         </button>
-
 
         {canGenerate && (
           <button type="submit">
@@ -499,7 +479,6 @@ function Home() {
           </div>
         )}
 
-
         {!canGenerate && nextPlanAt && (
           <p
             style={{
@@ -511,12 +490,9 @@ function Home() {
         )}
       </form>
 
-
       <button type="button" onClick={handleGraphRedirector}>
         📈 Grafikon megtekintése
       </button>
-
- 
 
       {calories != null && (
         <div className="calorie-card">
@@ -525,7 +501,6 @@ function Home() {
           <h2>{calories} kcal</h2>
         </div>
       )}
-
 
       {macros && (
         <div className="macros">
@@ -549,7 +524,6 @@ function Home() {
         </div>
       )}
 
-
       {plan && (
         <div className="weekly-plan">
           <h2>Heti terv</h2>
@@ -569,12 +543,7 @@ function Home() {
                   key={dayPlan._id ?? `${dayPlan.day}-${i}`}
                   className="day-card"
                 >
-
-                  <h3>
-                    {dayPlan.day}
-
-                  </h3>
-
+                  <h3>{dayPlan.day}</h3>
 
                   <h4>🍽 Étrend</h4>
 
@@ -597,7 +566,6 @@ function Home() {
                   ) : (
                     <p>Nincs étkezés megadva.</p>
                   )}
-
 
                   <h4
                     style={{
@@ -668,6 +636,24 @@ function Home() {
         </div>
       )}
 
+      {savedPlan && (
+        <PlanRating
+          key={savedPlan._id}
+          plan={savedPlan}
+          onSaved={(changes) => {
+            const updatedPlan = {
+              ...savedPlan,
+              ...changes,
+            };
+
+            setSavedPlan(updatedPlan);
+
+            if (!isDraft) {
+              setPlan(updatedPlan);
+            }
+          }}
+        />
+      )}
 
       <div className="chat-section">
         <h3>🤖 AI Fitness Coach</h3>
@@ -678,7 +664,6 @@ function Home() {
           )}
 
           {chatHistory.map((msg, i) => {
-
             const cleanMessage =
               msg.content
                 ?.replace(/<br\s*\/?>/gi, "\n")

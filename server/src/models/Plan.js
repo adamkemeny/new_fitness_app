@@ -36,7 +36,24 @@ const planSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   macros: { protein: Number, fat: Number, carbs: Number },
   completed: { type: Boolean, default: false },
-  dailyLog: [dailyLogSchema]
+  dailyLog: [dailyLogSchema],
+  feedback: {
+  type: Number,
+  min: 1,
+  max: 5,
+  default: null
+},
+
+feedbackText: {
+  type: String,
+  maxlength: 1000,
+  default: ""
+},
+
+feedbackAt: {
+  type: Date,
+  default: null
+},
 });
 
 export const Plan = mongoose.model("Plan", planSchema);

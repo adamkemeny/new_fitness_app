@@ -1,27 +1,25 @@
-export const randomItem = (array, intolerances, diet) => {
+export const randomItem = (array, intolerances = [], diet) => {
   if (!array || array.length === 0) {
     throw new Error("The array does not exist!");
   }
 
-  let attempts = 0;
+  const suitableFoods = array.filter((food) => {
+    const matchesDiet = food.type.includes(diet);
 
-  while (attempts < 50) {
-    const element = array[Math.floor(Math.random() * array.length)];
-    let eheto = true;
-    if (!element.type.includes(diet)) {
-      eheto = false;
-    }
-    for (const i of intolerances) {
-      if (element.intolerances?.includes(i)) {
-        eheto = false;
-        break;
-      }
-    }
-    if (eheto) {
-      return element;
-    }
-    attempts++;
+    const hasIntolerance = intolerances.some(
+      (item) => food.intolerances?.includes(item)
+    );
+
+    return matchesDiet && !hasIntolerance;
+  });
+
+  if (suitableFoods.length === 0) {
+    throw new Error("No suitable food found");
   }
-  return array[0];
-};
 
+  const index = Math.floor(
+    Math.random() * suitableFoods.length
+  );
+
+  return suitableFoods[index];
+};

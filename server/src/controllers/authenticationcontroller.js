@@ -72,7 +72,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      error: "Error while registering.",
+      error: "Error while logging in.",
     });
   }
 };

@@ -1,0 +1,140 @@
+.plan-rating {
+  margin: 24px 0;
+  padding: 22px;
+  border-radius: 16px;
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.rating-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+  background: #334155;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.rating-toggle:hover {
+  background: #475569;
+}
+
+.rating-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding-top: 24px;
+  animation: rating-open 0.2s ease-out;
+}
+
+.rating-form h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.rating-star {
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 42px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.rating-star.active {
+  color: #facc15;
+}
+
+.rating-star:hover {
+  transform: scale(1.15);
+}
+
+.rating-label,
+.rating-saved {
+  text-align: center;
+  color: #cbd5e1;
+}
+
+.rating-form label {
+  font-weight: 600;
+}
+
+.rating-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  resize: vertical;
+  padding: 12px;
+  background: #0f172a;
+  color: white;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  font: inherit;
+}
+
+.rating-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.rating-actions button {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.rating-submit {
+  background: #16a34a;
+  color: white;
+  border: none;
+}
+
+.rating-cancel {
+  background: #475569;
+  color: white;
+  border: none;
+}
+
+.rating-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rating-error {
+  color: #fca5a5;
+}
+
+@keyframes rating-open {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .rating-star {
+    font-size: 34px;
+  }
+
+  .rating-actions {
+    flex-direction: column;
+  }
+}

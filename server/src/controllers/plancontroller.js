@@ -5,75 +5,70 @@ import { weightUpdater } from "./progresscontroller.js";
 
 const oneWeek = 7 * 24 * 60 * 60 * 1000;
 
-export const complete = async (req, res) => {
+export const feedback = async (req, res) => {
   try {
-    const planID = req.body;
+    const { planID, rating, comment = "" } = req.body ?? {};
 
     if (!planID) {
       return res.status(400).json({
-        error: "PlanID is required.",
+        error: "A terv azonosítója kötelező."
+      });
+    }
+
+    if (
+      typeof rating !== "number" ||
+      !Number.isInteger(rating) ||
+      rating < 1 ||
+      rating > 5
+    ) {
+      return res.status(400).json({
+        error: "Az értékelésnek 1 és 5 közötti egész számnak kell lennie."
+      });
+    }
+
+    if (
+      typeof comment !== "string" ||
+      comment.length > 1000
+    ) {
+      return res.status(400).json({
+        error: "A szöveges értékelés legfeljebb 1000 karakter lehet."
       });
     }
 
     const plan = await Plan.findOne({
       _id: planID,
-      userID: req.userID,
+      userID: req.userID
     });
 
     if (!plan) {
       return res.status(404).json({
-        error: "Plan not found.",
+        error: "A terv nem található."
       });
     }
-    plan.completed = true;
+
+    plan.feedback = rating;
+    plan.feedbackText = comment.trim();
+    plan.feedbackAt = new Date();
+
     await plan.save();
-    res.json({
-      message: "Plan completed.",
+
+    return res.json({
+      message: "Értékelés sikeresen elmentve.",
+      feedback: {
+        rating: plan.feedback,
+        comment: plan.feedbackText,
+        createdAt: plan.feedbackAt
+      }
     });
+
   } catch (error) {
-    res.status(500).json({
-      error: "An error occured while completed a plan.",
+    console.error("Feedback error:", error);
+
+    return res.status(500).json({
+      error: "Nem sikerült menteni az értékelést."
     });
   }
-};
-
-export const feedback = async (req, res) => {
-  try {
-    const { planID, feedback } = req.body;
-
-    if (!planID || !feedback) {
-      return res.status(400).json({
-        error: "PlanID and feedback are required.",
-      });
-    }
-
-    if (feedback < 1 || feedback > 5) {
-      return res.status(400).json({
-        error: "Feedback must be 1-5.",
-      });
-    }
-
-    const plan = await Plan.findOne({
-      _id: planID,
-      userID: req.userID,
-    });
-
-    if (!plan) {
-      return res.status(404).json({
-        error: "Plan not found.",
-      });
-    }
-    plan.feedback = feedback;
-    await plan.save();
-    res.json({
-      message: "Feedback saved.",
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "An error occured while giving feedback.",
-    });
-  }
-};
+}
 
 export const getCurrentPlan = async (req, res) => {
   try {
@@ -95,7 +90,7 @@ export const getCurrentPlan = async (req, res) => {
     const lastMealUpdate = plan.mealsUpdatedAt || plan.createdAt;
     const now = Date.now();
     if (now - new Date(lastMealUpdate).getTime() >= oneWeek) {
-      const newMeals = await GenerateMeals(user, plan.calories);
+      const newMeals = await GenerateMeals(user, plan.calories, user.diet || "normal");
       plan.meals = newMeals;
       plan.mealsUpdatedAt = new Date();
       await plan.save();
@@ -143,6 +138,7 @@ export const savePlan = async (req, res) => {
       "difficulty",
       "availability",
       "weightHistory",
+      "diet"
     ];
     allowedFields.forEach((field) => {
       if (profile?.[field] !== undefined) {
